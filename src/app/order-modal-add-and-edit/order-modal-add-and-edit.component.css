@@ -1,0 +1,19 @@
+.content {
+    padding-top: 10px;
+}
+.single-row {
+    width: 100%;
+    
+}
+
+.gender{
+    padding-block: 10px;
+}
+.row {
+    display: flex;
+    gap: 10px;
+    padding-block: 5px;
+}
+.row mat-form-field {
+    width: 100%;
+}

@@ -1,0 +1,100 @@
+<div mat-dialog-title>
+    <h1>Сделать заказ</h1>
+</div>
+<div mat-dialog-content class="content">
+
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>Ваше имя</mat-label>
+            <input matInput type="text" placeholder="Имя">
+            <mat-hint>Н-р: Василий</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Ваша фамилия</mat-label>
+            <input matInput type="text" placeholder="Фамилия">
+            <mat-hint>Н-р: Меньшиков</mat-hint>
+        </mat-form-field>
+
+    </div>
+    <div class="row">
+        <mat-checkbox [(ngModel)]="getPackageByaStranger" (change)="onCheckboxChange()">Получать посылку буду не
+            я</mat-checkbox>
+    </div>
+    <div class="row">
+        <div class="row" *ngIf="getPackageByaStranger">
+            <mat-form-field appearance="outline" class="single-row">
+                <mat-label>Имя получателя</mat-label>
+                <input class="additional" matInput type="text" placeholder="Введите имя получателя"
+                    [(ngModel)]="recipientName">
+                <mat-hint>Н-р: Михаил</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="row" *ngIf="getPackageByaStranger">
+            <mat-form-field appearance="outline" class="single-row">
+                <mat-label>Фамилия получателя</mat-label>
+                <input class="additional" matInput type="text" placeholder="Введите фамилию получателя"
+                    [(ngModel)]="recipientSurname">
+                <mat-hint>Н-р: Кохновец</mat-hint>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>Ваша Эл. почта</mat-label>
+            <input matInput type="email" placeholder="Email" required>
+            <mat-hint>Н-р: pupsik@yandex.com</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Номер телефона</mat-label>
+            <input matInput type="text" placeholder="Ваш телефон" required>
+            <mat-hint>Н-р: 8(800)555-35-35</mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>Адрес получателя</mat-label>
+            <input matInput type="text" placeholder="Адрес" required>
+            <mat-hint>Н-р: ул. Пушкина 45б</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Почтовый индекс</mat-label>
+            <input matInput type="text" placeholder="Индекс" required>
+            <mat-hint>Н-р: 614046 </mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-radio-group aria-label="Select an option" class="gender">
+            <mat-label><b>Пол</b></mat-label>
+            <mat-radio-button value="Мужской">Мужской</mat-radio-button>
+            <mat-radio-button value="Женский">Женский</mat-radio-button>
+            <mat-radio-button value="Другой">Другой</mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div class="row">
+        <mat-form-field appearance="outline" class="single-row">
+            <mat-label>Дата отправки</mat-label>
+            <input matInput [matDatepicker]="orderDatepicker" placeholder="Выберите дату" [min]="minDate">
+            <mat-datepicker-toggle matSuffix [for]="orderDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #orderDatepicker></mat-datepicker>
+            <mat-hint>ММ/ДД/ГГГГ</mat-hint>
+        </mat-form-field>
+    </div>
+
+
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>Компания доставки</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let shpngCmp of shippingCompanies" [value]="shpngCmp">
+                    {{ shpngCmp }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button>Отмена</button>
+    <button mat-raised-button color="primary">Сохранить</button>
+</div>
