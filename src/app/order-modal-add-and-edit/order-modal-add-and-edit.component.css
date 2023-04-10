@@ -1,19 +1,32 @@
 .content {
     padding-top: 10px;
 }
+
 .single-row {
     width: 100%;
-    
+
 }
 
-.gender{
+.cityForm {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.cityForm-full-width {
+    width: 100%;
+}
+
+.gender {
     padding-block: 10px;
 }
+
 .row {
     display: flex;
     gap: 10px;
     padding-block: 5px;
 }
+
 .row mat-form-field {
     width: 100%;
 }

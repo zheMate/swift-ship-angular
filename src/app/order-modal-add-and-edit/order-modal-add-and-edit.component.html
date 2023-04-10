@@ -6,13 +6,13 @@
     <div class="row">
         <mat-form-field appearance="outline">
             <mat-label>Ваше имя</mat-label>
-            <input matInput type="text" placeholder="Имя">
-            <mat-hint>Н-р: Василий</mat-hint>
+            <input matInput type="text" placeholder="Имя" required>
+            <mat-hint>Н-р: Данил</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Ваша фамилия</mat-label>
-            <input matInput type="text" placeholder="Фамилия">
-            <mat-hint>Н-р: Меньшиков</mat-hint>
+            <input matInput type="text" placeholder="Фамилия" required>
+            <mat-hint>Н-р: Вуколов</mat-hint>
         </mat-form-field>
 
     </div>
@@ -24,19 +24,25 @@
         <div class="row" *ngIf="getPackageByaStranger">
             <mat-form-field appearance="outline" class="single-row">
                 <mat-label>Имя получателя</mat-label>
-                <input class="additional" matInput type="text" placeholder="Введите имя получателя"
-                    [(ngModel)]="recipientName">
+                <input class="additional" matInput type="text" placeholder="Имя" [(ngModel)]="recipientName" required>
                 <mat-hint>Н-р: Михаил</mat-hint>
             </mat-form-field>
         </div>
         <div class="row" *ngIf="getPackageByaStranger">
             <mat-form-field appearance="outline" class="single-row">
                 <mat-label>Фамилия получателя</mat-label>
-                <input class="additional" matInput type="text" placeholder="Введите фамилию получателя"
-                    [(ngModel)]="recipientSurname">
+                <input class="additional" matInput type="text" placeholder="Фамилия" [(ngModel)]="recipientSurname" required>
                 <mat-hint>Н-р: Кохновец</mat-hint>
             </mat-form-field>
         </div>
+    </div>
+    <div class="row">
+        <mat-radio-group  class="gender" [(ngModel)] = "clientGender">
+            <mat-label><b>Пол</b></mat-label>
+            <mat-radio-button *ngFor="let gender of genders" [value]="gender">
+            {{ gender }}
+            </mat-radio-button>
+        </mat-radio-group>
     </div>
     <div class="row">
         <mat-form-field appearance="outline">
@@ -62,14 +68,25 @@
             <mat-hint>Н-р: 614046 </mat-hint>
         </mat-form-field>
     </div>
+
     <div class="row">
-        <mat-radio-group aria-label="Select an option" class="gender">
-            <mat-label><b>Пол</b></mat-label>
-            <mat-radio-button value="Мужской">Мужской</mat-radio-button>
-            <mat-radio-button value="Женский">Женский</mat-radio-button>
-            <mat-radio-button value="Другой">Другой</mat-radio-button>
-        </mat-radio-group>
+        <form class="cityForm">
+            <mat-form-field class="cityForm-full-width" appearance="outline">
+              <mat-label>Город</mat-label>
+              <input type="text"
+                     placeholder="Выберите город"
+                     matInput
+                     [formControl]="myControl"
+                     [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
     </div>
+    
 
     <div class="row">
         <mat-form-field appearance="outline" class="single-row">
@@ -84,7 +101,7 @@
 
     <div class="row">
         <mat-form-field appearance="outline">
-            <mat-label>Компания доставки</mat-label>
+            <mat-label>Выберите компанию доставки</mat-label>
             <mat-select>
                 <mat-option *ngFor="let shpngCmp of shippingCompanies" [value]="shpngCmp">
                     {{ shpngCmp }}

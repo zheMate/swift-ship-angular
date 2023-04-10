@@ -11,16 +11,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderModalAddAndEditComponent } from './order-modal-add-and-edit/order-modal-add-and-edit.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectModule} from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    OrderModalAddAndEditComponent
+    OrderModalAddAndEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +41,9 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatCheckboxModule,
     FormsModule,
+    HttpClientModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
