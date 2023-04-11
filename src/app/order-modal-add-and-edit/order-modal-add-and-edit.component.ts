@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import {  startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { RussianCitiesService } from '../russian-cities.service';
 import { RussianCities } from '../russian-cities';
-
 
 
 @Component({
@@ -16,12 +15,24 @@ import { RussianCities } from '../russian-cities';
 
 
 export class OrderModalAddAndEditComponent implements OnInit {
-  myControl = new FormControl();
-  russianCities: RussianCities[]= [];
-  options: string[] = [];
-  filteredOptions: Observable<any[]> = of([]);
-  constructor(private russianCitiesService: RussianCitiesService){
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+  citiesControl = new FormControl();
+  empForm: FormGroup;
+  russianCities = [];
+  filteredRussianCitiesOptions: Observable<any[]> = of([]);
+  constructor(private russianCitiesService: RussianCitiesService,  private _fb: FormBuilder,){
+    this.empForm = this._fb.group({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      gender: '',
+      address: '',
+      postIndex: '',
+      city: '',
+      dateOfDelivery: '',
+      shippingCompanies: '',
+    });
+    this.filteredRussianCitiesOptions = this.citiesControl.valueChanges.pipe(
       startWith(''),
       debounceTime(400),
       distinctUntilChanged(),
@@ -31,9 +42,7 @@ export class OrderModalAddAndEditComponent implements OnInit {
     )
   }
   
-  ngOnInit() {
-   
-  }
+  ngOnInit() {}
   filter(val: string): Observable<any[]> {
     // call the service which makes the http-request
     return this.russianCitiesService.getDataFromApi()

@@ -12,7 +12,12 @@
     max-width: 500px;
     width: 100%;
 }
-
+.action{
+    padding: 0px 25px 20px;
+}
+.action button{
+    flex: 1;
+}
 .cityForm-full-width {
     width: 100%;
 }

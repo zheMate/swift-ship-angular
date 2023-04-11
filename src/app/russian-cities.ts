@@ -1,3 +1,3 @@
 export class RussianCities{
-  constructor(public title:string, public body:string) {}
+  constructor(public city:string, public street:string) {}
 }

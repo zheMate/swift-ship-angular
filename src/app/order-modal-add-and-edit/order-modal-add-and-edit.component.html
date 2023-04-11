@@ -70,21 +70,21 @@
     </div>
 
     <div class="row">
-        <form class="cityForm">
+        <div class="cityForm">
             <mat-form-field class="cityForm-full-width" appearance="outline">
               <mat-label>Город</mat-label>
               <input type="text"
                      placeholder="Выберите город"
                      matInput
-                     [formControl]="myControl"
+                     [formControl]="citiesControl"
                      [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                  {{option}}
+                <mat-option *ngFor="let city of filteredRussianCitiesOptions | async" [value]="city.name">
+                  {{ city.subject }}, г. {{city.name}} 
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-          </form>
+          </div>
     </div>
     
 
