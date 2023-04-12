@@ -1,0 +1,73 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "orders": [
+    {
+      "firstName": "Impedit in Nam ea e",
+      "lastName": "Enim id non ea volup",
+      "gender": "Женский",
+      "email": "dugiqir@mailinator.com",
+      "phone": "1234567890",
+      "recieveAddress": "Harum delectus dict",
+      "postIndex": "123456",
+      "citiesAndDistrictFilter": "Москва",
+      "departureDate": "2023-04-19T19:00:00.000Z",
+      "shippingCompanies": "Бандеролька",
+      "id": 1
+    },
+    {
+      "firstName": "Voluptate cum repreh",
+      "lastName": "Ratione quis vitae s",
+      "gender": "Женский",
+      "email": "xojy@mailinator.com",
+      "phone": "888888888888",
+      "recieveAddress": "Enim id nemo alias l",
+      "postIndex": "123456",
+      "citiesAndDistrictFilter": "Ангарск",
+      "departureDate": "2023-04-29T19:00:00.000Z",
+      "shippingCompanies": "Boxberry",
+      "id": 3
+    },
+    {
+      "firstName": "Eveniet hic non dol",
+      "lastName": "Aliqua Ab autem ani",
+      "gender": "Женский",
+      "email": "bowoqy@mailinator.com",
+      "phone": "787878787",
+      "recieveAddress": "Sit placeat volupt",
+      "postIndex": "123456",
+      "citiesAndDistrictFilter": "Агрыз",
+      "departureDate": "2023-04-27T19:00:00.000Z",
+      "shippingCompanies": "Pony Express",
+      "id": 6
+    },
+    {
+      "firstName": "Ducimus aliquam eos",
+      "lastName": "Et veritatis ad volu",
+      "gender": "Другой",
+      "email": "gurarynoja@mailinator.com",
+      "phone": "234556778",
+      "recieveAddress": "Laborum Laudantium",
+      "postIndex": "788344",
+      "citiesAndDistrictFilter": "Анадырь",
+      "departureDate": "2023-04-25T19:00:00.000Z",
+      "shippingCompanies": "DHL",
+      "id": 7
+    }
+  ]
+}

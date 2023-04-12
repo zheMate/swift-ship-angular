@@ -5,3 +5,11 @@
 .under-line {
     text-decoration: underline;
 }
+.main-body{
+    padding-top: 20px;
+    margin: 0 auto;
+    max-width: 1348px;
+}
+.main-body mat-form-field{
+    width: 100%;
+}

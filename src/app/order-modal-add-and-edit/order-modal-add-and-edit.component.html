@@ -1,117 +1,99 @@
 <div mat-dialog-title>
     <h1>Сделать заказ</h1>
 </div>
-<div mat-dialog-content class="content">
+<form [formGroup]="modalFormForOrder" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content">
 
-    <div class="row">
-        <mat-form-field appearance="outline">
-            <mat-label>Ваше имя</mat-label>
-            <input matInput type="text" placeholder="Имя" required>
-            <mat-hint>Н-р: Данил</mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Ваша фамилия</mat-label>
-            <input matInput type="text" placeholder="Фамилия" required>
-            <mat-hint>Н-р: Вуколов</mat-hint>
-        </mat-form-field>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Ваше имя</mat-label>
+                <input matInput type="text" placeholder="Имя" required formControlName="firstName">
+                <mat-hint>Н-р: Данил</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Ваша фамилия</mat-label>
+                <input matInput type="text" placeholder="Фамилия" required formControlName="lastName">
+                <mat-hint>Н-р: Вуколов</mat-hint>
+            </mat-form-field>
 
-    </div>
-    <div class="row">
-        <mat-checkbox [(ngModel)]="getPackageByaStranger" (change)="onCheckboxChange()">Получать посылку буду не
-            я</mat-checkbox>
-    </div>
-    <div class="row">
-        <div class="row" *ngIf="getPackageByaStranger">
-            <mat-form-field appearance="outline" class="single-row">
-                <mat-label>Имя получателя</mat-label>
-                <input class="additional" matInput type="text" placeholder="Имя" [(ngModel)]="recipientName" required>
-                <mat-hint>Н-р: Михаил</mat-hint>
+        </div>
+
+        <div class="row">
+            <mat-radio-group class="gender" formControlName="gender">
+                <mat-label><b>Пол</b></mat-label>
+                <mat-radio-button *ngFor="let gender of genders" [value]="gender" >
+                    {{ gender }}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Ваша Эл. почта</mat-label>
+                <input matInput type="email" placeholder="Email" required formControlName="email">
+                <mat-hint>Н-р: pupsik@yandex.com</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Номер телефона</mat-label>
+                <input matInput type="text" placeholder="Ваш телефон" required formControlName="phone">
+                <mat-hint>Н-р: 8(800)555-35-35</mat-hint>
             </mat-form-field>
         </div>
-        <div class="row" *ngIf="getPackageByaStranger">
-            <mat-form-field appearance="outline" class="single-row">
-                <mat-label>Фамилия получателя</mat-label>
-                <input class="additional" matInput type="text" placeholder="Фамилия" [(ngModel)]="recipientSurname" required>
-                <mat-hint>Н-р: Кохновец</mat-hint>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Адрес получателя</mat-label>
+                <input matInput type="text" placeholder="Адрес" required formControlName="recieveAddress">
+                <mat-hint>Н-р: ул. Пушкина 45б</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Почтовый индекс</mat-label>
+                <input matInput type="text" placeholder="Индекс" required formControlName="postIndex">
+                <mat-hint>Н-р: 614046 </mat-hint>
             </mat-form-field>
         </div>
-    </div>
-    <div class="row">
-        <mat-radio-group  class="gender" [(ngModel)] = "clientGender">
-            <mat-label><b>Пол</b></mat-label>
-            <mat-radio-button *ngFor="let gender of genders" [value]="gender">
-            {{ gender }}
-            </mat-radio-button>
-        </mat-radio-group>
-    </div>
-    <div class="row">
-        <mat-form-field appearance="outline">
-            <mat-label>Ваша Эл. почта</mat-label>
-            <input matInput type="email" placeholder="Email" required>
-            <mat-hint>Н-р: pupsik@yandex.com</mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Номер телефона</mat-label>
-            <input matInput type="text" placeholder="Ваш телефон" required>
-            <mat-hint>Н-р: 8(800)555-35-35</mat-hint>
-        </mat-form-field>
-    </div>
-    <div class="row">
-        <mat-form-field appearance="outline">
-            <mat-label>Адрес получателя</mat-label>
-            <input matInput type="text" placeholder="Адрес" required>
-            <mat-hint>Н-р: ул. Пушкина 45б</mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Почтовый индекс</mat-label>
-            <input matInput type="text" placeholder="Индекс" required>
-            <mat-hint>Н-р: 614046 </mat-hint>
-        </mat-form-field>
-    </div>
 
-    <div class="row">
-        <div class="cityForm">
-            <mat-form-field class="cityForm-full-width" appearance="outline">
-              <mat-label>Город</mat-label>
-              <input type="text"
-                     placeholder="Выберите город"
-                     matInput
-                     [formControl]="citiesControl"
-                     [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let city of filteredRussianCitiesOptions | async" [value]="city.name">
-                  {{ city.subject }}, г. {{city.name}} 
-                </mat-option>
-              </mat-autocomplete>
+        <div class="row">
+            <div class="cityForm">
+                <mat-form-field class="cityForm-full-width" appearance="outline">
+                    <mat-label>
+                        Город
+                    </mat-label>
+                    <input formControlName="citiesAndDistrictFilter" matInput type="text" [matAutocomplete]="auto"
+                        placeholder="Выберите город" />
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let city of filteredRussianCitiesOptions" [value]="city">
+                            г. {{city}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <mat-form-field appearance="outline" class="single-row">
+                <mat-label>Дата отправки</mat-label>
+                <input matInput [matDatepicker]="orderDatepicker" placeholder="Выберите дату" [min]="minDate" formControlName="departureDate">
+                <mat-datepicker-toggle matSuffix [for]="orderDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #orderDatepicker></mat-datepicker>
+                <mat-hint>ММ/ДД/ГГГГ</mat-hint>
             </mat-form-field>
-          </div>
+        </div>
+
+
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Выберите компанию доставки</mat-label>
+                <mat-select formControlName="shippingCompanies">
+                    <mat-option *ngFor="let shpngCmp of shippingCompanies" [value]="shpngCmp" >
+                        {{ shpngCmp }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
     </div>
-    
-
-    <div class="row">
-        <mat-form-field appearance="outline" class="single-row">
-            <mat-label>Дата отправки</mat-label>
-            <input matInput [matDatepicker]="orderDatepicker" placeholder="Выберите дату" [min]="minDate">
-            <mat-datepicker-toggle matSuffix [for]="orderDatepicker"></mat-datepicker-toggle>
-            <mat-datepicker #orderDatepicker></mat-datepicker>
-            <mat-hint>ММ/ДД/ГГГГ</mat-hint>
-        </mat-form-field>
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Отмена</button>
+        <button mat-raised-button color="primary" type="submit">{{ data ? 'Изменить' : 'Добавить' }}</button>
     </div>
-
-
-    <div class="row">
-        <mat-form-field appearance="outline">
-            <mat-label>Выберите компанию доставки</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let shpngCmp of shippingCompanies" [value]="shpngCmp">
-                    {{ shpngCmp }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-    </div>
-</div>
-<div mat-dialog-actions>
-    <button mat-raised-button>Отмена</button>
-    <button mat-raised-button color="primary">Сохранить</button>
-</div>
+</form>

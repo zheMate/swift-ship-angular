@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import {  startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
+import { startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { RussianCitiesService } from '../russian-cities.service';
 import { RussianCities } from '../russian-cities';
+import { OrderService } from '../services/order.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CoreService } from '../core/core.service';
 
 
 @Component({
@@ -15,60 +18,93 @@ import { RussianCities } from '../russian-cities';
 
 
 export class OrderModalAddAndEditComponent implements OnInit {
-  citiesControl = new FormControl();
-  empForm: FormGroup;
+
+  modalFormForOrder: FormGroup;
+
   russianCities = [];
-  filteredRussianCitiesOptions: Observable<any[]> = of([]);
-  constructor(private russianCitiesService: RussianCitiesService,  private _fb: FormBuilder,){
-    this.empForm = this._fb.group({
+
+  filteredRussianCitiesOptions = [];
+
+  constructor(
+    private russianCitiesService: RussianCitiesService,
+    private _fb: FormBuilder,
+    private _orderService: OrderService,
+    private _dialogRef: MatDialogRef<OrderModalAddAndEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _coreService: CoreService,
+  ) { }
+  ngOnInit() {
+    this.initForm();
+    this.getNamesOfRussianCitiesAndDistricts();
+    this.modalFormForOrder.patchValue(this.data);
+  }
+  initForm() {
+    this.modalFormForOrder = this._fb.group({
       firstName: '',
       lastName: '',
+      gender: '',
       email: '',
       phone: '',
-      gender: '',
-      address: '',
+      recieveAddress: '',
       postIndex: '',
-      city: '',
-      dateOfDelivery: '',
+      citiesAndDistrictFilter: [''],
+      departureDate: '',
       shippingCompanies: '',
-    });
-    this.filteredRussianCitiesOptions = this.citiesControl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(400),
-      distinctUntilChanged(),
-      switchMap(val => {
-            return this.filter(val || '')
-       }) 
-    )
+    })
+    this.modalFormForOrder.get('citiesAndDistrictFilter').valueChanges.subscribe(response => {
+      this.filterCitiesAndDistricts(response);
+    })
   }
-  
-  ngOnInit() {}
-  filter(val: string): Observable<any[]> {
-    // call the service which makes the http-request
-    return this.russianCitiesService.getDataFromApi()
-     .pipe(
-       map(response => response.filter((option:any) => { 
-         return option.name.toLowerCase().indexOf(val.toLowerCase()) === 0
-       }))
-     )
-   } 
-  
+  filterCitiesAndDistricts(enteredData) {
+    this.filteredRussianCitiesOptions = this.russianCities.filter(item => {
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
+    })
+  }
+  onFormSubmit() {
+    if (this.modalFormForOrder.valid) {
+      if (this.data) {
+        this._orderService.updateOrder(this.data.id, this.modalFormForOrder.value)
+        .subscribe({
+          next: (val: any) => {
+            this._coreService.openSnackBar('Детали заказа изменены !');
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.error(err);
+          }
+        })
+      }
+      else {
+        this._orderService.addOrder(this.modalFormForOrder.value)
+        .subscribe({
+          next: (val: any) => {
+            this._coreService.openSnackBar('Заказ успешно добавлен !');
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.error(err);
+          }
+        })
+      }
+    }
+  }
+  getNamesOfRussianCitiesAndDistricts() {
+    this.russianCitiesService.getDataFromApi().subscribe(response => {
+      this.russianCities = response;
+      this.filteredRussianCitiesOptions = response;
+    })
+  }
+
   minDate = new Date().toISOString();
-  getPackageByaStranger: boolean = false;
-  recipientName: string = '';
-  recipientSurname: string = '';
-  clientGender: string = '';
+
+
+
   genders: string[] = [
     'Мужской',
     'Женский',
     'Другой'
   ];
-  onCheckboxChange() {
-    if (!this.getPackageByaStranger) {
-      this.recipientName = '';
-      this.recipientSurname = '';
-    }
-  }
+
   shippingCompanies: string[] = [
     'Boxberry',
     'DHL',
