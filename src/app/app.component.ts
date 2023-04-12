@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderModalAddAndEditComponent } from './order-modal-add-and-edit/order-modal-add-and-edit.component';
 import { OrderService } from './services/order.service';
@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoreService } from './core/core.service';
+
 
 
 @Component({
@@ -38,22 +39,38 @@ export class AppComponent implements OnInit {
     private _dialog: MatDialog,
     private _orderService: OrderService,
     private _coreService: CoreService,
+    
     ) { }
 
   ngOnInit(): void {
     this.getOrderList();
   }
 
-  openAddOrderModalForm() {
-    const dialogRef =  this._dialog.open(OrderModalAddAndEditComponent);
-    dialogRef.afterClosed().subscribe({
+  openAddOrEditOrderModalForm(data: any, editable: boolean){
+    if(editable){
+      const dialogRef = this._dialog.open(OrderModalAddAndEditComponent, {
+        data,
+     });
+     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if(val) {
           this.getOrderList();
         }
       }
     })
+    }
+    else {
+      const dialogRef =  this._dialog.open(OrderModalAddAndEditComponent);
+      dialogRef.afterClosed().subscribe({
+        next: (val) => {
+          if(val) {
+            this.getOrderList();
+          }
+        }
+      })
+    }
   }
+
   getOrderList() {
     this._orderService.getOrderList().subscribe({
       next: (res) => {
@@ -85,16 +102,5 @@ export class AppComponent implements OnInit {
       }
     })
   }
-  openEditOrderModalForm(data: any) {
-     const dialogRef = this._dialog.open(OrderModalAddAndEditComponent, {
-        data,
-     });
-     dialogRef.afterClosed().subscribe({
-      next: (val) => {
-        if(val) {
-          this.getOrderList();
-        }
-      }
-    })
-  }
+
 }

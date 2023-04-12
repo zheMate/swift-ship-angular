@@ -8,7 +8,7 @@
   <span>Где <span class="under-line">скорость</span>, идёт в один шаг с <span class="under-line">надёжностью</span></span>
   <mat-icon> directions_boat</mat-icon>
   <span class="example-spacer"></span>
-  <button mat-raised-button (click)="openAddOrderModalForm()">
+  <button mat-raised-button (click)="openAddOrEditOrderModalForm('',false)">
       Добавить заказ
   </button>
 </mat-toolbar>
@@ -78,7 +78,7 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Действия </th>
       <td mat-cell *matCellDef="let row"> 
-          <button mat-icon-button color="primary" (click)="openEditOrderModalForm(row)">
+          <button mat-icon-button color="primary" (click)="openAddOrEditOrderModalForm(row, true)">
               <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button color="warn" (click)="deleteOrder(row.id)">
