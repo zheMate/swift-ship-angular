@@ -21,6 +21,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ModalWindowThatMakeSureComponent } from './modal-window-that-make-sure/modal-window-that-make-sure.component';
+
 
 
 
@@ -30,6 +32,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   declarations: [
     AppComponent,
     OrderModalAddAndEditComponent,
+    ModalWindowThatMakeSureComponent,
+    
   ],
   imports: [
     BrowserModule,

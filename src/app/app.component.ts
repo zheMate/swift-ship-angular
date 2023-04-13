@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoreService } from './core/core.service';
+import { ModalWindowThatMakeSureComponent } from './modal-window-that-make-sure/modal-window-that-make-sure.component';
 
 
 
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _dialog: MatDialog,
+    private _dialogThatMakeSure: MatDialog,
     private _orderService: OrderService,
     private _coreService: CoreService,
     
@@ -91,16 +93,33 @@ export class AppComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  deleteOrder(id: number){
-    this._orderService.deleteOrder(id).subscribe({
-      next: (res) => {
-        this._coreService.openSnackBar('Заказ удалён !', 'Выполнено');
-        this.getOrderList();
-      },
-      error: (err) => {
-        console.error(err);
+
+  openMakeSureToDeleteDialog(id: number){
+    const confirmationModal = this._dialogThatMakeSure.open(ModalWindowThatMakeSureComponent, {
+      data:{
+        orderID: id,
       }
-    })
+    });
+    confirmationModal.afterClosed().subscribe(orderIdFromModal =>{
+      if(orderIdFromModal){
+        this._orderService.deleteOrder(orderIdFromModal.orderID).subscribe({
+          next: (res) => {
+            this._coreService.openSnackBar('Заказ удалён !', 'Выполнено');
+            this.getOrderList();
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        })
+      }
+      else {
+        this._coreService.openSnackBar('Операция отменена !');
+      }
+    });
   }
+
+  
+
+  
 
 }
