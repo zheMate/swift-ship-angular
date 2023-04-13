@@ -12,12 +12,27 @@
     max-width: 500px;
     width: 100%;
 }
-.action{
+
+.action {
     padding: 0px 25px 20px;
 }
-.action button{
+
+.action button {
     flex: 1;
 }
+
+.title {
+    display: flex;
+    
+}
+.form-underscore{
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+.title span{
+    margin-left: 10px;
+}
+
 .cityForm-full-width {
     width: 100%;
 }

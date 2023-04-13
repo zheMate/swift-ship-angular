@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { RussianCitiesService } from '../russian-cities.service';
@@ -7,6 +7,7 @@ import { RussianCities } from '../russian-cities';
 import { OrderService } from '../services/order.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreService } from '../core/core.service';
+import { ValidationService } from '../core/validation.service';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class OrderModalAddAndEditComponent implements OnInit {
     private _dialogRef: MatDialogRef<OrderModalAddAndEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _coreService: CoreService,
+    private _validationService: ValidationService,
+    
   ) { }
   ngOnInit() {
     this.initForm();
@@ -40,16 +43,16 @@ export class OrderModalAddAndEditComponent implements OnInit {
   }
   initForm() {
     this.modalFormForOrder = this._fb.group({
-      firstName: '',
-      lastName: '',
-      gender: '',
-      email: '',
-      phone: '',
-      recieveAddress: '',
-      postIndex: '',
-      citiesAndDistrictFilter: [''],
-      departureDate: '',
-      shippingCompanies: '',
+      firstName: new FormControl('', [Validators.required, this._validationService.noSpaceAllowed, Validators.pattern('[а-яА-Я]*'), Validators.minLength(2)]),
+      lastName: new FormControl('', [Validators.required, this._validationService.noSpaceAllowed, Validators.pattern('[а-яА-Я]*'),  Validators.minLength(2)]),
+      gender: new FormControl('Мужской', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
+      phone: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]),
+      recieveAddress: new FormControl('', [Validators.required, Validators.pattern('[а-яА-Я0-9. ]*'), Validators.minLength(6),] ),
+      postIndex: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern('[0-9]*')]),
+      citiesAndDistrictFilter: new FormControl('', [Validators.required, Validators.pattern('[а-яА-Я- ]*')]),
+      departureDate: new FormControl('', Validators.required),
+      shippingCompanies: new FormControl('Boxberry', Validators.required),
     })
     this.modalFormForOrder.get('citiesAndDistrictFilter').valueChanges.subscribe(response => {
       this.filterCitiesAndDistricts(response);
@@ -95,6 +98,7 @@ export class OrderModalAddAndEditComponent implements OnInit {
     })
   }
 
+  
   minDate = new Date().toISOString();
 
 

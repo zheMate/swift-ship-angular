@@ -1,53 +1,114 @@
 <div mat-dialog-title>
-    <h1>Сделать заказ</h1>
+    <div class="title">
+        <h1>Сделать заказ </h1>
+        <div matTooltip="Если получать посылку будете не вы, то укажите Имя и Фамилию человека который будет получать посылку за вас"
+            matTooltipPosition="right" matTooltipHideDelay="1000">
+            <span matBadge="?" matBadgeColor="accent"></span>
+        </div>
+    </div>
+
 </div>
 <form [formGroup]="modalFormForOrder" (ngSubmit)="onFormSubmit()">
     <div mat-dialog-content class="content">
-
+        <p> Поля помеченные <strong> * </strong> <span class="form-underscore"> обязательные</span> для заполнения</p>
         <div class="row">
             <mat-form-field appearance="outline">
-                <mat-label>Ваше имя</mat-label>
-                <input matInput type="text" placeholder="Имя" required formControlName="firstName">
+                <mat-label>Имя получателя</mat-label>
+                <input matInput type="text" placeholder="Имя" formControlName="firstName">
                 <mat-hint>Н-р: Данил</mat-hint>
+                <mat-error *ngIf="modalFormForOrder.get('firstName').errors?.['required']">
+                    <strong>Обязательное</strong> поле
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('firstName').errors?.['minlength']">
+                   Минимум <strong>2</strong> символа
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('firstName').errors?.['pattern']">
+                    Только <strong>Кириллица</strong> 
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('firstName').errors?.['noSpaceAllowed']">
+                    Поле не должно содержать пробелы
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>Ваша фамилия</mat-label>
-                <input matInput type="text" placeholder="Фамилия" required formControlName="lastName">
+                <mat-label>Фамилия получателя</mat-label>
+                <input matInput type="text" placeholder="Фамилия" formControlName="lastName">
                 <mat-hint>Н-р: Вуколов</mat-hint>
+                <mat-error *ngIf="modalFormForOrder.get('lastName').errors?.['required']">
+                    <strong>Обязательное</strong> поле
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('lastName').errors?.['minlength']">
+                   Минимум <strong>2</strong> символа
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('lastName').errors?.['pattern']">
+                    Только <strong>Кириллица</strong> 
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('lastName').errors?.['noSpaceAllowed']">
+                    Поле не должно содержать пробелы
+                </mat-error>
             </mat-form-field>
-
         </div>
 
         <div class="row">
             <mat-radio-group class="gender" formControlName="gender">
                 <mat-label><b>Пол</b></mat-label>
-                <mat-radio-button *ngFor="let gender of genders" [value]="gender" >
+                <mat-radio-button *ngFor="let gender of genders" [value]="gender">
                     {{ gender }}
                 </mat-radio-button>
             </mat-radio-group>
         </div>
         <div class="row">
             <mat-form-field appearance="outline">
-                <mat-label>Ваша Эл. почта</mat-label>
-                <input matInput type="email" placeholder="Email" required formControlName="email">
+                <mat-label>Эл. почта получателя</mat-label>
+                <input matInput type="email" placeholder="Email" formControlName="email">
                 <mat-hint>Н-р: pupsik@yandex.com</mat-hint>
+                <mat-error *ngIf="modalFormForOrder.get('email').errors?.['required']">
+                    <strong>Обязательное</strong> поле
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('email').errors?.['pattern']">
+                    Введите корректный Email
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Номер телефона</mat-label>
-                <input matInput type="text" placeholder="Ваш телефон" required formControlName="phone">
+                <input matInput type="text" placeholder="Ваш телефон" formControlName="phone">
                 <mat-hint>Н-р: 8(800)555-35-35</mat-hint>
+                <mat-error *ngIf="modalFormForOrder.get('phone').errors?.['required']">
+                    <strong>Обязательное</strong> поле
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('phone').errors?.['pattern']">
+                    Введите корректный телефон
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="row">
             <mat-form-field appearance="outline">
                 <mat-label>Адрес получателя</mat-label>
-                <input matInput type="text" placeholder="Адрес" required formControlName="recieveAddress">
+                <input matInput type="text" placeholder="Адрес" formControlName="recieveAddress">
                 <mat-hint>Н-р: ул. Пушкина 45б</mat-hint>
+                <mat-error *ngIf="modalFormForOrder.get('recieveAddress').errors?.['required']">
+                    <strong>Обязательное</strong> поле
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('recieveAddress').errors?.['minlength']">
+                    Минимум 6 символов
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('recieveAddress').errors?.['pattern']">
+                    Только <strong>Кириллица</strong>, <strong>пробелы</strong> или <strong>цифры</strong> 
+                </mat-error>
+
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Почтовый индекс</mat-label>
-                <input matInput type="text" placeholder="Индекс" required formControlName="postIndex">
-                <mat-hint>Н-р: 614046 </mat-hint>
+                <input matInput type="text" placeholder="Н-р: 614046" formControlName="postIndex" #postalCode maxlength="6">
+                <mat-hint align="end"> {{postalCode.value.length}} / 6</mat-hint>
+                <mat-error *ngIf="modalFormForOrder.get('postIndex').errors?.['required']">
+                    <strong>Обязательное</strong> поле
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('postIndex').errors?.['minlength']">
+                    Индекс состоит из <strong>6</strong> цифр
+                </mat-error>
+                <mat-error *ngIf="modalFormForOrder.get('postIndex').errors?.['pattern']">
+                    Индекс состоит из 6 <strong>цифр</strong> 
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -64,6 +125,13 @@
                             г. {{city}}
                         </mat-option>
                     </mat-autocomplete>
+                    <mat-error *ngIf="modalFormForOrder.get('citiesAndDistrictFilter').errors?.['required']">
+                        <strong>Обязательное</strong> поле
+                    </mat-error>
+                    <mat-error *ngIf="modalFormForOrder.get('citiesAndDistrictFilter').errors?.['pattern']">
+                        Только <strong>Кириллица</strong>, <strong>пробелы</strong> или <strong>тире</strong>
+                    </mat-error>
+               
                 </mat-form-field>
             </div>
         </div>
@@ -72,10 +140,14 @@
         <div class="row">
             <mat-form-field appearance="outline" class="single-row">
                 <mat-label>Дата отправки</mat-label>
-                <input matInput [matDatepicker]="orderDatepicker" placeholder="Выберите дату" [min]="minDate" formControlName="departureDate">
+                <input matInput [matDatepicker]="orderDatepicker" placeholder="Выберите дату" [min]="minDate"
+                    formControlName="departureDate">
                 <mat-datepicker-toggle matSuffix [for]="orderDatepicker"></mat-datepicker-toggle>
                 <mat-datepicker #orderDatepicker></mat-datepicker>
                 <mat-hint>ММ/ДД/ГГГГ</mat-hint>
+                <mat-error *ngIf="modalFormForOrder.get('citiesAndDistrictFilter').invalid">
+                    Введите корректную дату
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -84,7 +156,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>Выберите компанию доставки</mat-label>
                 <mat-select formControlName="shippingCompanies">
-                    <mat-option *ngFor="let shpngCmp of shippingCompanies" [value]="shpngCmp" >
+                    <mat-option *ngFor="let shpngCmp of shippingCompanies" [value]="shpngCmp">
                         {{ shpngCmp }}
                     </mat-option>
                 </mat-select>
@@ -94,6 +166,6 @@
     </div>
     <div mat-dialog-actions class="action">
         <button mat-raised-button type="button" [mat-dialog-close]="false">Отмена</button>
-        <button mat-raised-button color="primary" type="submit">{{ data ? 'Изменить' : 'Добавить' }}</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="modalFormForOrder.invalid">{{ data ? 'Изменить' : 'Добавить' }}</button>
     </div>
 </form>

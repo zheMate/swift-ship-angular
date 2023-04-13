@@ -94,6 +94,32 @@
       "departureDate": "2023-04-28T19:00:00.000Z",
       "shippingCompanies": "DHL",
       "id": 11
+    },
+    {
+      "firstName": "Sunt iste culpa iust",
+      "lastName": "Amet minim tempora ",
+      "gender": "Другой",
+      "email": "pobysywaw@mailinator.com",
+      "phone": "34512342",
+      "recieveAddress": "Ipsam sunt itaque di",
+      "postIndex": "123456",
+      "citiesAndDistrictFilter": "Димитровград",
+      "departureDate": "2023-04-27T19:00:00.000Z",
+      "shippingCompanies": "Boxberry",
+      "id": 12
+    },
+    {
+      "firstName": "вафыва",
+      "lastName": "ыфвафыва",
+      "gender": "Другой",
+      "email": "doqaze@mailinator.com",
+      "phone": "45234523",
+      "recieveAddress": "ывафыва ывафыва",
+      "postIndex": "122222",
+      "citiesAndDistrictFilter": "Копейск",
+      "departureDate": "2023-04-19T19:00:00.000Z",
+      "shippingCompanies": "Бандеролька",
+      "id": 13
     }
   ]
 }
