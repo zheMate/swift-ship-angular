@@ -1,5 +1,8 @@
 # SwiftShip - теперь на  Angular
 
+#Этот проект использует [JSON Server](https://www.npmjs.com/package/json-server?activeTab=readme)
+После установки пакетов для запуска использовать ↓
+json-server --watch db.json
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 
